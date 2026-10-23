@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="images/eooglogo.png">
+  <title>Eyes on Old Growth — Protecting BC's Ancient Forests</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --moss:#2d4a2a; --fern:#3d6b38; --sage:#7a9e6e; --bark:#5c3d1e; --soil:#8b6340;
+      --cream:#f5f0e8; --parchment:#ede5d4; --mist:#c8d8c0; --fog:#e8ede4; --charcoal:#1e2b1c;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family:'Source Sans 3',system-ui,sans-serif; font-size:1.0625rem; line-height:1.65; background:var(--cream); color:var(--charcoal); overflow-x:hidden; }
+    h1, h2, h3 { font-family:'Bitter',Georgia,serif; font-weight:700; }
+    button { font-family:inherit; }
+    a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid var(--sage); outline-offset:2px; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } }
+
+    /* NAV */
+    nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:.9rem 2rem; background:var(--charcoal); border-bottom:1px solid rgba(200,216,192,.15); }
+    .nav-logo { display:flex; align-items:center; gap:.65rem; font-family:'Bitter',Georgia,serif; font-weight:700; font-size:1.2rem; color:var(--cream); text-decoration:none; }
+    .nav-logo img { height:2.4rem; width:auto; display:block; }
+    .nav-logo span { color:var(--mist); }
+    .nav-links { display:flex; gap:1.6rem; list-style:none; align-items:center; }
+    .nav-links a { color:rgba(232,237,228,.8); text-decoration:none; font-size:1rem; }
+    .nav-links a:hover, .nav-links a.active { color:#fff; text-decoration:underline; text-underline-offset:4px; }
+    .nav-links a.nav-cta { background:var(--fern); color:var(--cream); padding:.45rem 1rem; border-radius:3px; text-decoration:none; font-weight:600; }
+    .nav-links a.nav-cta:hover { background:#4c7f46; color:#fff; text-decoration:none; }
+
+    /* BUTTONS */
+    .btn-primary { display:inline-block; background:var(--fern); color:var(--cream); text-decoration:none; font-weight:600; font-size:1rem; padding:.75rem 1.5rem; border-radius:3px; }
+    .btn-primary:hover { background:var(--moss); }
+    .btn-secondary { display:inline-block; border:2px solid rgba(245,240,232,.7); color:var(--cream); text-decoration:none; font-weight:600; font-size:1rem; padding:.65rem 1.4rem; border-radius:3px; }
+    .btn-secondary:hover { background:rgba(245,240,232,.15); }
+
+    /* FOOTER */
+    footer { background:var(--charcoal); padding:2rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+    .footer-logo { font-family:'Bitter',Georgia,serif; font-weight:700; color:var(--cream); }
+    .footer-links { display:flex; gap:1.5rem; list-style:none; flex-wrap:wrap; }
+    .footer-links a { color:rgba(232,237,228,.7); text-decoration:none; font-size:.95rem; }
+    .footer-links a:hover { color:#fff; text-decoration:underline; }
+    .footer-copy { color:rgba(232,237,228,.55); font-size:.85rem; width:100%; text-align:center; }
+
+    @media (max-width:768px) {
+      nav { flex-direction:column; align-items:flex-start; gap:.4rem; padding:.7rem 1rem; }
+      .nav-links { flex-wrap:wrap; gap:.3rem 1rem; }
+      .nav-links a { font-size:.95rem; }
+      footer { flex-direction:column; text-align:center; }
+    }
+
+    /* HERO */
+    .hero { position:relative; height:100vh; min-height:560px; display:flex; align-items:flex-end; padding:0 2rem 4.5rem; overflow:hidden; }
+    .hero-video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+    .hero-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(18,28,16,.85) 0%, rgba(18,28,16,.3) 55%, rgba(18,28,16,.15) 100%); }
+    .hero-content { position:relative; max-width:720px; }
+    .hero-eyebrow { color:var(--mist); font-size:1.05rem; margin-bottom:.5rem; }
+    .hero h1 { font-size:clamp(2.6rem,6vw,4.5rem); line-height:1.08; color:var(--cream); margin-bottom:1.6rem; }
+    .hero-actions { display:flex; gap:.8rem; flex-wrap:wrap; }
+
+    /* MISSION + VISION */
+    .mission-band { background:var(--moss); padding:3.5rem 2rem; display:grid; grid-template-columns:1fr 1px 1fr; gap:3rem; align-items:start; }
+    .mission-divider { background:rgba(200,216,192,.25); align-self:stretch; }
+    .mission-label { font-weight:600; font-size:.95rem; color:var(--mist); margin-bottom:.4rem; }
+    .mission-block h2 { font-size:1.4rem; line-height:1.4; color:var(--cream); font-weight:600; }
+    .mission-block p { color:rgba(232,237,228,.9); }
+
+    /* STATS */
+    .stats-band { background:var(--charcoal); padding:2.5rem 2rem; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:2rem; text-align:center; }
+    .stat-number { font-family:'Bitter',Georgia,serif; font-size:2.4rem; font-weight:700; color:var(--cream); display:block; line-height:1.2; }
+    .stat-label { font-size:.95rem; color:var(--mist); margin-top:.2rem; }
+
+    /* SECTION BASE */
+    section { padding:4.5rem 2rem; }
+    .section-eyebrow { font-weight:600; font-size:.95rem; color:var(--fern); margin-bottom:.4rem; }
+    .section-title { font-size:clamp(1.7rem,3.2vw,2.4rem); line-height:1.2; color:var(--charcoal); max-width:600px; margin-bottom:1.2rem; }
+
+    /* THE ISSUE */
+    .issue { background:var(--fog); display:grid; grid-template-columns:1fr 1fr; gap:3.5rem; align-items:center; }
+    .issue-image { position:relative; }
+    .issue-image img { width:100%; height:520px; object-fit:cover; object-position:center top; display:block; }
+    .issue-image-caption { position:absolute; bottom:.8rem; left:.8rem; background:rgba(18,28,16,.75); color:var(--cream); font-size:.85rem; padding:.3rem .7rem; }
+    .issue-text p { color:#3a4a38; margin-bottom:1rem; }
+
+    /* VALLEY SHOT */
+    .valley-shot { height:400px; overflow:hidden; position:relative; }
+    .valley-shot img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
+    .valley-shot-caption { position:absolute; bottom:1rem; right:1.2rem; background:rgba(18,28,16,.75); color:var(--cream); font-size:.85rem; padding:.3rem .7rem; }
+
+    /* HOW WE WORK */
+    .how-we-work { background:var(--cream); }
+    .intro-grid { display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:end; margin-bottom:2.5rem; }
+    .intro-grid p { color:#4a5a48; }
+    .pillars { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; }
+    .pillar { background:var(--fog); padding:1.5rem; border-radius:3px; }
+    .pillar h3 { font-size:1.15rem; color:var(--moss); margin-bottom:.4rem; }
+    .pillar p { color:#4a5a48; }
+
+    /* PHOTO STRIP */
+    .photo-strip { display:grid; grid-template-columns:2fr 1fr 1fr; gap:.4rem; height:420px; }
+    .photo-strip-item { overflow:hidden; }
+    .photo-strip-item img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+
+    /* TAKE ACTION */
+    .take-action { background:var(--fog); }
+    .take-action .section-intro { display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:end; margin-bottom:2.5rem; }
+    .take-action .section-intro p { color:#4a5a48; }
+    .action-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.2rem; }
+    .action-card { background:var(--cream); border:1px solid rgba(61,107,56,.3); border-radius:3px; padding:1.5rem; text-decoration:none; color:inherit; display:block; }
+    .action-card:hover { border-color:var(--fern); }
+    .action-card h3 { font-size:1.15rem; color:var(--moss); margin-bottom:.4rem; }
+    .action-card p { color:#4a5a48; }
+    .action-card-link { display:inline-block; margin-top:.8rem; font-weight:600; color:var(--fern); text-decoration:underline; text-underline-offset:3px; }
+
+    /* NEWSLETTER */
+    .newsletter { background:var(--moss); text-align:center; padding:4.5rem 2rem; }
+    .newsletter .section-title { color:var(--cream); margin:0 auto .8rem; }
+    .newsletter p { color:rgba(232,237,228,.9); max-width:480px; margin:0 auto 1.5rem; }
+    .newsletter-form { display:flex; max-width:440px; margin:0 auto; }
+    .newsletter-form input { flex:1; padding:.8rem 1rem; border:1px solid rgba(200,216,192,.4); border-right:none; background:rgba(255,255,255,.08); color:var(--cream); font-family:inherit; font-size:1rem; border-radius:3px 0 0 3px; }
+    .newsletter-form input::placeholder { color:rgba(200,216,192,.6); }
+    .newsletter-form button { background:var(--fern); color:var(--cream); border:none; padding:.8rem 1.4rem; font-weight:600; font-size:1rem; cursor:pointer; border-radius:0 3px 3px 0; }
+    .newsletter-form button:hover { background:var(--charcoal); }
+
+    @media (max-width:768px) {
+      .hero { padding:0 1rem 3rem; }
+      section { padding:3rem 1rem; }
+      .mission-band { grid-template-columns:1fr; padding:2.5rem 1rem; gap:1.5rem; }
+      .mission-divider { display:none; }
+      .issue { grid-template-columns:1fr; gap:1.5rem; }
+      .issue-image img { height:320px; }
+      .valley-shot { height:240px; }
+      .intro-grid { grid-template-columns:1fr; gap:1rem; }
+      .pillars { grid-template-columns:1fr; }
+      .photo-strip { grid-template-columns:1fr; height:auto; }
+      .photo-strip-item { height:240px; }
+      .take-action .section-intro { grid-template-columns:1fr; gap:1rem; }
+      .stats-band { padding:2rem 1rem; }
+      .newsletter { padding:3rem 1rem; }
+      .newsletter-form { flex-direction:column; }
+      .newsletter-form input { border-right:1px solid rgba(200,216,192,.4); border-bottom:none; border-radius:3px 3px 0 0; }
+      .newsletter-form button { border-radius:0 0 3px 3px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="index.html" class="nav-logo"><img src="images/eooglogo.png" alt="">Eyes on&nbsp;<span>Old Growth</span></a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="press-releases.html">Press</a></li>
+      <li><a href="mla-tracker.html">MLA Tracker</a></li>
+      <li><a href="take-action.html">Take Action</a></li>
+      <li><a href="get-involved.html" class="nav-cta">Get Involved</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <video class="hero-video" src="images/BlackCreekDrone.mp4" autoplay muted loop playsinline preload="auto"></video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">British Columbia, Canada</p>
+      <h1>Eyes on Old Growth</h1>
+      <!-- FILL IN LATER: short intro line for the hero, e.g. <p class="hero-desc">...</p> -->
+      <div class="hero-actions">
+        <a href="take-action.html" class="btn-primary">Take Action Now</a>
+        <a href="events.html" class="btn-secondary">See Upcoming Events</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION + VISION -->
+  <div class="mission-band">
+    <div class="mission-block">
+      <p class="mission-label">Our Mission</p>
+      <h2>Connecting people and places in defense of BC's last ancient forests.</h2>
+    </div>
+    <div class="mission-divider"></div>
+    <div class="mission-block">
+      <p class="mission-label">Our Vision</p>
+      <p>To see an end to commercial logging of primary and old-growth forests by 2030 — and a just transition to sustainable forestry practices that serves both people and the land.</p>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-band">
+    <div class="stat-item">
+      <span class="stat-number">3%</span>
+      <p class="stat-label">of BC's most productive<br>old-growth remains</p>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">1,000+</span>
+      <p class="stat-label">years old — some trees<br>in BC's forests</p>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">149</span>
+      <p class="stat-label">species at risk depend<br>on old-growth habitat</p>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">2030</span>
+      <p class="stat-label">our deadline to end<br>old-growth logging</p>
+    </div>
+  </div>
+
+  <!-- THE ISSUE -->
+  <section class="issue">
+    <div class="issue-image">
+      <img src="images/Black CreekLogging2026.jpeg" alt="Old-growth stump in Black Creek, 2026">
+      <span class="issue-image-caption">BC old-growth forest</span>
+    </div>
+    <div class="issue-text">
+      <p class="section-eyebrow">Why It Matters</p>
+      <h2 class="section-title">Fill in later</h2>
+      <p>Fill in later: a few sentences on why old-growth forests matter.</p>
+      <!-- FILL IN LATER: optional pull quote (use a real, attributed quote) -->
+      <a href="about.html" class="btn-primary" style="margin-top:1.2rem;">About Our Work</a>
+    </div>
+  </section>
+
+  <!-- VALLEY SHOT -->
+  <div class="valley-shot">
+    <img src="images/WalbranDJI_0163.JPG" alt="Aerial drone view of BC old-growth valley">
+    <span class="valley-shot-caption">Walbran Valley</span>
+  </div>
+
+  <!-- HOW WE WORK -->
+  <section class="how-we-work">
+    <div class="intro-grid">
+      <div>
+        <h2 class="section-title">How We Work</h2>
+      </div>
+      <p>We take a multi-pronged approach to protecting BC's ancient forests — building knowledge, growing the movement, and applying pressure where it matters most.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <h3>Education</h3>
+        <p>We share the science, history, and stakes of old-growth loss with the public, policymakers, and media to build an informed and engaged constituency.</p>
+      </div>
+      <div class="pillar">
+        <h3>Training &amp; Workshops</h3>
+        <p>We equip community members, Indigenous land defenders, and volunteers with the skills to monitor, document, and respond to logging activity on the ground.</p>
+      </div>
+      <div class="pillar">
+        <h3>Advocacy</h3>
+        <p>We engage directly with government, industry, and the public — presenting evidence, demanding accountability, and pushing for binding protections.</p>
+      </div>
+      <div class="pillar">
+        <h3>Agitate</h3>
+        <p>We organize, mobilize, and disrupt the status quo. When dialogue fails, we escalate — through demonstrations, media campaigns, and civil action.</p>
+      </div>
+      <div class="pillar">
+        <h3>Resources</h3>
+        <p>We develop and share tools, maps, reports, and guides that empower communities, journalists, and advocates with the information they need to act.</p>
+      </div>
+      <div class="pillar">
+        <h3>Support</h3>
+        <p>We stand behind those on the front lines — offering solidarity, legal referrals, and coordination to Indigenous nations and community groups protecting their territories.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTO STRIP -->
+  <div class="photo-strip">
+    <div class="photo-strip-item"><img src="images/BlackCreekGiant.JPG" alt="Ancient old-growth tree in Black Creek"></div>
+    <div class="photo-strip-item"><img src="images/YellowCedar.jpeg" alt="Old-growth yellow cedar"></div>
+    <div class="photo-strip-item"><img src="images/UpperNimpkishVert.jpeg" alt="BC old-growth forest"></div>
+  </div>
+
+  <!-- TAKE ACTION -->
+  <section class="take-action">
+    <div class="section-intro">
+      <div>
+        <h2 class="section-title">Get Involved</h2>
+      </div>
+      <p>There are many ways to make a difference — from writing to your MLA, to joining a monitoring patrol, to sharing the issue with people you know. Every action adds up.</p>
+    </div>
+    <div class="action-cards">
+      <a href="mla-tracker.html" class="action-card">
+        <h3>Contact Your MLA</h3>
+        <p>Find your Member of the Legislative Assembly, see where they stand, and demand binding protection for at-risk old-growth stands.</p>
+        <span class="action-card-link">Open MLA Tracker</span>
+      </a>
+      <a href="events.html" class="action-card">
+        <h3>Join an Event</h3>
+        <p>Come to a workshop, training, or gathering. Learn to document what's happening on the ground and meet others in the movement.</p>
+        <span class="action-card-link">See events</span>
+      </a>
+      <a href="take-action.html" class="action-card">
+        <h3>Take Action</h3>
+        <p>Sign on, send letters, and share our campaigns. Awareness is the first step toward lasting change.</p>
+        <span class="action-card-link">Take action</span>
+      </a>
+      <a href="get-involved.html" class="action-card">
+        <h3>Get Involved</h3>
+        <p>Volunteer, donate, or join a monitoring team. Every bit of support helps protect what little remains.</p>
+        <span class="action-card-link">Get involved</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <h2 class="section-title">Stay Informed</h2>
+    <p>Sign up for updates from Eyes on Old Growth. Read our latest <a href="press-releases.html" style="color:var(--mist);">press releases</a>.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="your@email.com" aria-label="Email address">
+      <button type="button">Subscribe</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Eyes on Old Growth</div>
+    <ul class="footer-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="press-releases.html">Press</a></li>
+      <li><a href="mla-tracker.html">MLA Tracker</a></li>
+      <li><a href="take-action.html">Take Action</a></li>
+      <li><a href="get-involved.html">Get Involved</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 Eyes on Old Growth. Protecting British Columbia's ancient forests.</p>
+  </footer>
+
+</body>
+</html>
